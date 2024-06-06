@@ -30,12 +30,14 @@ def shop(request):
 def product_detail(request, slug=None):
     try:
         product = Productos.objects.get(slug=slug)
+        products = Productos.objects.filter(categoria=product.categoria).order_by('-id')[:10]
     except Productos.DoesNotExist:
-        product = None
+        return redirect('productos:shop')
 
     context = {
         'product': product,
-        'title': product.nombre + ' | Uomo'
+        'title': product.nombre + ' | Uomo',
+        'products': products
     }
 
     return render(request, 'shop/product_detail.html', context)

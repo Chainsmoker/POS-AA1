@@ -229,4 +229,4 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-STRIPE_ENDPOINT_SECRET = 'whsec_a7e4cce96611c4895825437c4ca9cfaadd15d73e80497ae8b8f9927426009ef1'
+STRIPE_ENDPOINT_SECRET = 'whsec_cm49dItnpOemYOzgYmH0I7Gd88rdtWhv'

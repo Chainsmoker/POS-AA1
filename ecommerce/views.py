@@ -104,7 +104,7 @@ def create_checkout_session(request):
                             'product_data': {
                                 'name': product.nombre,
                                 'description': product.mini_descripcion, 
-                                #'images': [product.imagenes.first().imagen.url],
+                                'images': [f'https://uomo.onrender.com/{product.imagenes.first().imagen.url}'],
                             },
                             'unit_amount': price,
                         },
@@ -127,8 +127,8 @@ def create_checkout_session(request):
                     metadata={
                         'order_id': orden.id,
                     },
-                    success_url=f'http://127.0.0.1:8000/checkout-complete?session_id={orden.id}',
-                    cancel_url='http://127.0.0.1:8000/cart',
+                    success_url=f'https://uomo.onrender.com/checkout-complete?session_id={orden.id}',
+                    cancel_url='https://uomo.onrender.com/cart',
                 )
                 
                 return JsonResponse({'checkoutUrl': session.url})

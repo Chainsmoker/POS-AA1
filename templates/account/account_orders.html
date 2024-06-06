@@ -24,6 +24,7 @@
               </tr>
             </thead>
             <tbody>
+              {%if ordenes.all %}
               {% for orden in ordenes %}
               <tr>
                 <td><a href="/checkout-complete/?session_id={{orden.id}}">#{{ orden.order_number }}</a></td>
@@ -44,6 +45,11 @@
                 <td><a href="/checkout-complete/?session_id={{orden.id}}" class="btn btn-primary" style="color: aliceblue; display: flex; align-items: center; justify-content: center;">Ver</a></td>
               </tr>
               {% endfor %}
+              {%else%}
+              <tr>
+                <td colspan="6" class="text-center">No hay ordenes</td>
+              </tr>
+              {%endif%}
             </tbody>
           </table>
         </div>
