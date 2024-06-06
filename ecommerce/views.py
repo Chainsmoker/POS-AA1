@@ -75,7 +75,7 @@ def shop_cart(request):
     context = {
         'title': 'Cart | Uomo'
     }
-    return render(request, 'shop/shop_cart.html', shop_cart)
+    return render(request, 'shop/shop_cart.html', context)
 
 def create_checkout_session(request):
     if request.method == 'POST':
