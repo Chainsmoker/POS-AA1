@@ -12,8 +12,8 @@
       </div>
       <div class="col-lg-9">
         <div class="page-content my-account__dashboard">
-          <p>Hello <strong>{{ user.nombre }}</strong> (not <strong>{{ user.nombre }} {{ user.apellido }}?</strong> <a href="{% url "account:logout_view" %}">Log out</a>)</p>
-          <p>From your account dashboard you can view your <a class="unerline-link" href="{% url "account:account_orders" %}">recent orders</a>, manage your <a class="unerline-link" href="{% url "account:account_address" %}">shipping and billing addresses</a>, and <a class="unerline-link" href="{% url "account:account_edit" %}">edit your password and account details.</a></p>
+          <p>Hola <strong>{{ user.nombre }}</strong></p>
+          <p>Desde el panel de control de su cuenta puede ver sus <a class="unerline-link" href="{% url "account:account_orders" %}">ordenes recientes</a> y <a class="unerline-link" href="{% url "account:account_edit" %}">editar tu contraseña y los datos de tu cuenta.</a></p>
         </div>
       </div>
     </div>
