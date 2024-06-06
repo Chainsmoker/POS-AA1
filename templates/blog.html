@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<main>
+  <section class="blog-page-title mb-4 mb-xl-5">
+    <div class="title-bg">
+      <img loading="lazy" src="{% static '/images/blog_title_bg.jpg' %}" width="1780" height="420" alt="">
+    </div>
+    <div class="container">
+      <h2 class="page-title">Blog</h2>
+      <div class="blog__filter">
+        <a href="#" class="menu-link menu-link_us-s">Todos</a>
+        <a href="#" class="menu-link menu-link_us-s">Compañia</a>
+        <a href="#" class="menu-link menu-link_us-s menu-link_active">moda</a>
+        <a href="#" class="menu-link menu-link_us-s">estilo</a>
+        <a href="#" class="menu-link menu-link_us-s">tendencia</a>
+      </div>
+    </div>
+  </section>
+  <section class="blog-page container">
+    <h2 class="d-none">Blog</h2>
+    <div class="blog-list">
+      <div class="blog-list__item">
+        <div class="blog-list__item-image">
+          <img loading="lazy" class="h-auto" src="{% static '/images/blog/blog-11.jpg' %}" width="680" height="493" alt="">
+        </div>
+        <div class="blog-list__item-detail">
+          <div class="blog-list__item-meta">
+            <span class="blog-list__item-meta__author">By Admin</span>
+            <span class="blog-list__item-meta__date">Junio 07, 2024</span>
+          </div>
+          <div class="blog-list__item-title">
+            <a href="#">Moda para mujeres</a>
+          </div>
+          <div class="blog-list__item-content">
+            <p>Midst one brought greater also morning green saying had good. Open stars day let over gathered, grass face one every light of under.</p>
+            <a href="#" class="readmore-link">Leer</a>
+          </div>
+        </div>
+      </div>
+      <div class="blog-list__item">
+        <div class="blog-list__item-image">
+          <img loading="lazy" class="h-auto" src="{% static '/images/blog/blog-12.jpg' %}" width="680" height="493" alt="">
+        </div>
+        <div class="blog-list__item-detail">
+          <div class="blog-list__item-meta">
+            <span class="blog-list__item-meta__author">By Admin</span>
+            <span class="blog-list__item-meta__date">Junio 07, 2024</span>
+          </div>
+          <div class="blog-list__item-title">
+            <a href="#">Viste con las nuevas tendecias</a>
+          </div>
+          <div class="blog-list__item-content">
+            <p>Midst one brought greater also morning green saying had good. Open stars day let over gathered, grass face one every light of under.</p>
+            <a href="#" class="readmore-link">Leer</a>
+          </div>
+        </div>
+      </div>
+      <div class="blog-list__item">
+        <div class="blog-list__item-image">
+          <img loading="lazy" class="h-auto" src="{% static '/images/blog/blog-13.jpg' %}" width="680" height="493" alt="">
+        </div>
+        <div class="blog-list__item-detail">
+          <div class="blog-list__item-meta">
+            <span class="blog-list__item-meta__author">By Admin</span>
+            <span class="blog-list__item-meta__date">Junio 07, 2024</span>
+          </div>
+          <div class="blog-list__item-title">
+            <a href="#">Una mujer con buenos zapatos</a>
+          </div>
+          <div class="blog-list__item-content">
+            <p>Midst one brought greater also morning green saying had good. Open stars day let over gathered, grass face one every light of under.</p>
+            <a href="#" class="readmore-link">Leer</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="mb-5 pb-xl-5"></div>
+{% endblock content %}

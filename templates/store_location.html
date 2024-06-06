@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_js %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=maps&amp;key=AIzaSyAnKJxI0i5KGFgD3QTSg_aXbQk_Ze2kNAw&amp;v=beta&amp;callback=google.maps.__ib__"></script>
+<script src="https://maps.googleapis.com/maps-api-v3/api/js/57/2-beta/intl/es_419/main.js"></script>
+{% endblock head_js %}
+
+{% block content %}
+<main>
+  <div class="mb-4 pb-4"></div>
+  <section class="store-location container">
+    <h2 class="page-title">Ubicación</h2>
+
+    <div class="row">
+      <div class="col-lg-4">
+        <form action="search.html" method="GET">
+          <div class="store-location__search">
+            <input class="store-location__search-input" type="text" name="search-keyword" placeholder="Ingresa tu ciudad">
+            <button class="btn-icon store-location__search-btn" type="submit">
+              <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_search" /></svg>
+            </button>
+          </div>
+
+          <div class="store-location__search-result">
+            <div class="store-location__search-result__item">
+              <h5>Lima</h5>
+              <p>Mateo Pumacahua 2520, Lince 51015, Lima <br>Peru<br>+51 951 245 586</p>
+              <a id="store_selector_1" href="#map">See on the map</a>
+            </div>
+            <div class="store-location__search-result__item">
+              <h5>Arequipa</h5>
+              <p>Mateo Pumacahua 2520, Lince 51015, Lima <br>Peru<br>+51 951 245 586</p>
+              <a id="store_selector_2" href="#map">Ver en el mapa</a>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-8">
+        <div class="google-map__wrapper">
+          <div id="map">
+          </div>
+          
+          <div class="google-map__marker-detail hide">
+            <a href="javascript:void(0)" class="btn-close">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" fill="#767676"/>
+                <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" fill="#767676"/>
+              </svg>                  
+            </a>
+            <div class="google-map__marker-detail__content">
+              <h5>Store in London</h5>
+              <p>1418 River Drive, Suite 35 Cottonhall, CA 9622<br>United States<br>+1 246-345-0695<br>10 am - 10 pm EST, 7 days a week</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="mb-5 pb-xl-5"></div>
+{% endblock content %}
+
+{% block extra_js %}
+<script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+  ({key: "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg", v: "weekly"});</script>
+<script>
+  let map;
+
+  async function initMap() {
+    const { Map } = await google.maps.importLibrary("maps");
+
+    map = new Map(document.getElementById("map"), {
+      center: { lat: -34.397, lng: 150.644 },
+      zoom: 8,
+    });
+  }
+
+initMap();
+</script>
+{% endblock extra_js %}

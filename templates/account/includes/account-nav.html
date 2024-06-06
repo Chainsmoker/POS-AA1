@@ -1,0 +1,17 @@
+<ul class="account-nav">
+  <li>
+    <a href="{% url 'account:account' %}" class="menu-link menu-link_us-s {% if active == 'dashboard' %}menu-link_active{%endif%}">Mi cuenta</a>
+  </li>
+  <li>
+    <a href="{% url 'account:account_orders' %}" class="menu-link menu-link_us-s {% if active == 'orders' %}menu-link_active{%endif%}">Ordenes</a>
+  </li>
+  <li>
+    <a href="{% url 'account:account_edit' %}" class="menu-link menu-link_us-s {% if active == 'edit' %}menu-link_active{%endif%}">Detalles de la cuenta</a>
+  </li>
+  <li>
+    <a href="{% url 'account:account_wishlist' %}" class="menu-link menu-link_us-s {% if active == 'wishlist' %}menu-link_active{%endif%}">Lista de deseos</a>
+  </li>
+  <li>
+    <a href="{% url "account:logout_view" %}" class="menu-link menu-link_us-s">Cerrar Sesión</a>
+  </li>
+</ul>

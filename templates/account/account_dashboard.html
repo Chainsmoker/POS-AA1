@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<main>
+  <div class="mb-4 pb-4"></div>
+  <section class="my-account container">
+    <h2 class="page-title">Mi cuenta</h2>
+    <div class="row">
+      <div class="col-lg-3">
+        {% include "account/includes/account-nav.html" %}
+      </div>
+      <div class="col-lg-9">
+        <div class="page-content my-account__dashboard">
+          <p>Hello <strong>{{ user.nombre }}</strong> (not <strong>{{ user.nombre }} {{ user.apellido }}?</strong> <a href="{% url "account:logout_view" %}">Log out</a>)</p>
+          <p>From your account dashboard you can view your <a class="unerline-link" href="{% url "account:account_orders" %}">recent orders</a>, manage your <a class="unerline-link" href="{% url "account:account_address" %}">shipping and billing addresses</a>, and <a class="unerline-link" href="{% url "account:account_edit" %}">edit your password and account details.</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="mb-5 pb-xl-5"></div>
+{% endblock content %}

@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<main>
+  <section class="full-width_padding">
+    <div class="full-width_border border-2" style="border-color: #eeeeee;">
+      <div class="shop-banner position-relative ">
+        <div class="background-img" style="background-color: #eeeeee;">
+          <img loading="lazy" src="{% static '/images/shop/shop_banner_character1.png' %}" width="1759" height="420" alt="Pattern" class="slideshow-bg__img object-fit-cover">
+        </div>
+
+        <div class="shop-banner__content container position-absolute start-50 top-50 translate-middle">
+          <h2 class="stroke-text h1 smooth-16 text-uppercase fw-bold mb-3 mb-xl-4 mb-xl-5">productos</h2>
+          <ul class="d-flex flex-wrap list-unstyled text-uppercase h6">
+            <li class="me-3 me-xl-4 pe-1"><a href="#" class="menu-link menu-link_us-s menu-link_active">Todos</a></li>
+            <li class="me-3 me-xl-4 pe-1"><a href="#" class="menu-link menu-link_us-s">Jackets & Coats</a></li>
+            <li class="me-3 me-xl-4 pe-1"><a href="#" class="menu-link menu-link_us-s">Hoodies</a></li>
+            <li class="me-3 me-xl-4 pe-1"><a href="#" class="menu-link menu-link_us-s">Hombres</a></li>
+            <li class="me-3 me-xl-4 pe-1"><a href="#" class="menu-link menu-link_us-s">Mujeres</a></li>
+            <li class="me-3 me-xl-4 pe-1"><a href="#" class="menu-link menu-link_us-s">Pantalones</a></li>
+            <li class="me-3 me-xl-4 pe-1"><a href="#" class="menu-link menu-link_us-s">Accesorios</a></li>
+            <li class="me-3 me-xl-4 pe-1"><a href="#" class="menu-link menu-link_us-s">Calzados</a></li>
+          </ul>
+        </div><!-- /.shop-banner__content -->
+      </div><!-- /.shop-banner position-relative -->
+    </div><!-- /.full-width_border -->
+  </section><!-- /.full-width_padding-->
+
+  <div class="mb-4 pb-lg-3"></div>
+
+  <section class="shop-main container">
+    <div class="d-flex justify-content-between mb-4 pb-md-2">
+      <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
+        <a href="/" class="menu-link menu-link_us-s text-uppercase fw-medium" >Inicio</a>
+        <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
+        <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium" >Shop</a>
+      </div><!-- /.breadcrumb -->
+
+      <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
+        <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Sort Items" name="total-number">
+          <option selected>Default Sorting</option>
+          <option value="1">Featured</option>
+          <option value="2">Best selling</option>
+          <option value="3">Alphabetically, A-Z</option>
+          <option value="3">Alphabetically, Z-A</option>
+          <option value="3">Price, low to high</option>
+          <option value="3">Price, high to low</option>
+          <option value="3">Date, old to new</option>
+          <option value="3">Date, new to old</option>
+        </select>
+
+        <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div>
+
+        <div class="col-size align-items-center order-1 d-none d-lg-flex">
+          <span class="text-uppercase fw-medium me-2">Ver</span>
+          <button class="btn-link fw-medium me-2 js-cols-size" data-target="products-grid" data-cols="2">2</button>
+          <button class="btn-link fw-medium me-2 js-cols-size" data-target="products-grid" data-cols="3">3</button>
+          <button class="btn-link fw-medium js-cols-size" data-target="products-grid"  data-cols="4">4</button>
+        </div><!-- /.col-size -->
+
+        <div class="shop-asc__seprator mx-3 bg-light d-none d-lg-block order-md-1"></div>
+
+        <div class="shop-filter d-flex align-items-center order-0 order-md-3">
+          <button class="btn-link btn-link_f d-flex align-items-center ps-0 js-open-aside" data-aside="shopFilter">
+            <svg class="d-inline-block align-middle me-2" width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_filter" /></svg>
+            <span class="text-uppercase fw-medium d-inline-block align-middle">Filtro</span>
+          </button>
+        </div><!-- /.col-size d-flex align-items-center ms-auto ms-md-3 -->
+      </div><!-- /.shop-acs -->
+    </div><!-- /.d-flex justify-content-between -->
+    <div class="products-grid row row-cols-2 row-cols-md-3 row-cols-lg-4" id="products-grid" >
+      {%for product in productos %}
+      <div class="product-card-wrapper">
+        <div class="product-card mb-3 mb-md-4 mb-xxl-5">
+          <div class="pc__img-wrapper">
+            <div class="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
+              <div class="swiper-wrapper">
+                {% for product_image in product.imagenes.all %}
+                  {% if forloop.counter <= 2 %}  <div class="swiper-slide">
+                      <a href="{{ product.slug }}">
+                        <img loading="lazy" src="{{ product_image.imagen.url }}" width="330" height="400" alt="{{ product_image.imagen.nombre }}" class="pc__img">
+                      </a>
+                    </div>{% endif %}
+                {% endfor %}
+
+              </div>
+              <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
+              <span class="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></span>
+            </div>
+            
+          </div>
+
+          <div class="pc__info position-relative">
+            <p class="pc__category">{{ product.categoria }}</p>
+            <h6 class="pc__title"><a href="{{ product.slug }}">{{ product.nombre }}</a></h6>
+            <div class="product-card__price d-flex">
+              <span class="money price">${{ product.precio }}</span>
+            </div>
+
+            <form action="{% url "account:account_wishlist_add" %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="product_id" value="{{ product.id }}">
+              <button type="submit" class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0" title="Add To Wishlist">
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart" /></svg>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {%endfor %}
+    </div><!-- /.products-grid row -->
+
+    
+
+    
+  </section><!-- /.shop-main container -->
+</main>
+{% endblock content %}

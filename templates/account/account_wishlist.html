@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<main>
+  <div class="mb-4 pb-4"></div>
+  <section class="my-account container">
+    <h2 class="page-title">Lista de deseos</h2>
+    <div class="row">
+      <div class="col-lg-3">
+        {% include "account/includes/account-nav.html" %}
+      </div>
+      <div class="col-lg-9">
+        <div class="page-content my-account__wishlist">
+          {% if messages %}
+              <div class="error-message">
+                  {% for message in messages %}
+                      {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" role="alert">
+                          {{ message }}
+                        </div>
+                      {% else %}
+                        <div class="alert alert-success" role="alert">
+                          {{ message }}
+                        </div>
+                      {% endif %}
+                  {% endfor %}
+              </div>
+          {% endif %}
+          <div class="products-grid row row-cols-2 row-cols-lg-3" id="products-grid" >
+            {% if user.wishlist.all %}
+            {% for product in user.wishlist.all %}
+            <div class="product-card-wrapper">
+              <div class="product-card mb-3 mb-md-4 mb-xxl-5">
+                <div class="pc__img-wrapper">
+                  <div class="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
+                    <div class="swiper-wrapper">
+                      {% for product_image in product.imagenes.all %}
+                        {% if forloop.counter <= 2 %}  <div class="swiper-slide">
+                            <a href="{{ product.slug }}">
+                              <img loading="lazy" src="{{ product_image.imagen.url }}" width="330" height="400" alt="{{ product_image.imagen.nombre }}" class="pc__img">
+                            </a>
+                          </div>{% endif %}
+                      {% endfor %}
+                    </div>
+                    <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm" /></svg></span>
+                    <span class="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm" /></svg></span>
+                  </div>
+                  <form action="{% url "account:account_wishlist_remove" %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <button type="submit" class="btn-remove-from-wishlist">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_close" /></svg>
+                    </button>
+                  </form>
+                </div>
+    
+                <div class="pc__info position-relative">
+                  <p class="pc__category">{{ product.categoria }}</p>
+                  <h6 class="pc__title">{{ product.nombre }}</h6>
+                  <div class="product-card__price d-flex">
+                    <span class="money price">${{ product.precio }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            {%else%}
+              <div class="alert alert-info w-100" role="alert">
+                No tienes productos en tu lista de deseos.
+              </div>
+            {% endif %}
+          </div><!-- /.products-grid row -->
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="mb-5 pb-xl-5"></div>
+{% endblock content %}

@@ -15,12 +15,28 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from ecommerce.views import home, shop_cart, create_checkout_session, about, terms, store_location, contact, blog, stripe_webhook, success
+
+app_name = 'ecommerce'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('cart/', shop_cart, name='shop_cart'),
+    path('about/', about, name='about'),
+    path('terms/', terms, name='terms'),
+    path('store-location/', store_location, name='store_location'),
+    path('contact/', contact, name='contact'),
+    path('blog/', blog, name='blog'),
+    path('checkout/', create_checkout_session, name='create_checkout_session'),
+    path('checkout-complete/', success, name='success'),
+    path('webhook/', stripe_webhook, name='stripe_webhook'),
+    path('', home, name='home'),
+    path('', include('productos.urls')),
+    path('', include('consumidores.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) 
 
 if settings.DEBUG:

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<main>
+  <div class="mb-4 pb-4"></div>
+  <section class="my-account container">
+    <h2 class="page-title">Ordenes</h2>
+    <div class="row">
+      <div class="col-lg-3">
+        {% include "account/includes/account-nav.html" %}
+      </div>
+      <div class="col-lg-9">
+        <div class="page-content my-account__orders-list">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>Orden</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Total</th>
+                <th>Pagado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for orden in ordenes %}
+              <tr>
+                <td><a href="/checkout-complete/?session_id={{orden.id}}">#{{ orden.order_number }}</a></td>
+                <td>{{ orden.fecha|date:"d/m/Y" }}</td>
+                <td style="text-transform: capitalize;">{{ orden.estado }}</td>
+                <td>${{ orden.get_total_tax }}</td>
+                <td>
+                  {% if orden.pagado %}
+                  <div style="text-align: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(29, 181, 8, 1);transform: ;msFilter:;"><path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z"></path></svg>
+                  </div>
+                  {% else %}
+                  <div style="text-align: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(239, 13, 13, 1);transform: ;msFilter:;"><path d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z"></path></svg>
+                  </div>
+                  {% endif %}
+                </td>
+                <td><a href="/checkout-complete/?session_id={{orden.id}}" class="btn btn-primary" style="color: aliceblue; display: flex; align-items: center; justify-content: center;">Ver</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="mb-5 pb-xl-5"></div>
+{% endblock content %}

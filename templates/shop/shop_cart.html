@@ -1,0 +1,331 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<main>
+  <div class="mb-4 pb-4"></div>
+  <section class="shop-checkout container">
+    <h2 class="page-title">Carrito</h2>
+    <div class="shopping-cart" style="margin-top: -30px;">
+      <div class="cart-table__wrapper">
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th></th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Subtotal</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="cart-container">
+          </tbody>
+        </table>
+        <div class="cart-table-footer">
+          <form action="./" class="position-relative bg-body">
+            <input class="form-control" type="text" name="coupon_code" placeholder="Cupón de descuento">
+            <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit" value="APLICAR CUPÓN">
+          </form>
+        </div>
+      </div>
+      <div class="shopping-cart__totals-wrapper">
+        <div class="sticky-content">
+          <div class="shopping-cart__totals">
+            <h3>Detalles de la compra</h3>
+            <table class="cart-totals">
+              <tbody>
+                <tr>
+                  <th>Subtotal</th>
+                  <td id="subtotal">$0</td>
+                </tr>
+                <tr>
+                  <th>VAT</th>
+                  <td>$19</td>
+                </tr>
+                <tr>
+                  <th>Total</th>
+                  <td id="total">$0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mobile_fixed-btn_wrapper">
+            <div class="button-wrapper container">
+              <button id="btn-checkout" class="btn btn-primary btn-checkout" style="display: flex; justify-content: center; align-items: center;">
+                REALIZAR COMPRA
+                <div class="loading-spinner"></div>
+              </button>
+              <style>
+                .loading-spinner {
+                  display: none;
+                  width: 20px;
+                  height: 20px;
+                  border: 2px solid #fff;
+                  border-top-color: transparent;
+                  border-radius: 50%;
+                  animation: spin 1s linear infinite;
+                }
+                .btn-checkout.loading .loading-spinner {
+                  display: block;
+                }
+                @keyframes spin {
+                  0% {
+                    transform: rotate(0deg);
+                  }
+                  100% {
+                    transform: rotate(360deg);
+                  }
+                }
+              </style>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="mb-5 pb-xl-5"></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const cartContainer = document.getElementById('cart-container');
+    const cart = JSON.parse(localStorage.getItem('cart'));
+
+    const updateTotals = () => {
+      const cart = JSON.parse(localStorage.getItem('cart'));
+      let subtotal = 0;
+      cart.forEach(item => {
+        subtotal += parseFloat(item.price) * item.quantity;
+      }
+      );
+      const total = subtotal + 19;
+      document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+      document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+    };
+
+    if (cart && cart.length > 0) {
+      cart.forEach(item => {
+        cartContainer.innerHTML += `
+          <tr data-slug="${item.slug}" data-size="${item.size}">
+            <td>
+              <div class="shopping-cart__product-item">
+                <a href="/shop/${item.slug}">
+                  <img loading="lazy" src="${item.image}" width="120" height="120" alt="">
+                </a>
+              </div>
+            </td>
+            <td>
+              <div class="shopping-cart__product-item__detail">
+                <h4><a href="/shop/${item.slug}" >${item.name}</a></h4>
+                <ul class="shopping-cart__product-item__options">
+                  <li>Size: ${item.size}</li>
+                </ul>
+              </div>
+            </td>
+            <td>
+              <span class="shopping-cart__product-price">$${item.price}</span>
+            </td>
+            <td>
+              <div class="qty-control position-relative">
+                <input type="number" name="quantity" value="${item.quantity}" min="1" class="qty-control__number text-center">
+                <div class="qty-control__reduce">-</div>
+                <div class="qty-control__increase">+</div>
+              </div>
+            </td>
+            <td>
+              <span class="shopping-cart__subtotal">$${(parseFloat(item.price) * item.quantity).toFixed(2)}</span>
+            </td>
+            <td>
+              <a href="#" class="remove-cart">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z"/>
+                  <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z"/>
+                </svg>
+              </a>
+            </td>
+          </tr>
+        `;
+      });
+
+    } else {
+      cartContainer.innerHTML = `
+        <tr>
+          <td colspan="6" style="width: 100%">
+            <div class="alert alert-info" role="alert">
+              No hay productos en el carrito
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+
+    const updateCart = () => {
+      const cart = JSON.parse(localStorage.getItem('cart'));
+      cartContainer.innerHTML = '';
+      if (cart && cart.length > 0) {
+        cart.forEach(item => {
+          cartContainer.innerHTML += `
+            <tr data-slug="${item.slug}" data-size="${item.size}">
+              <td>
+                <div class="shopping-cart__product-item">
+                  <a href="/shop/${item.slug}">
+                    <img loading="lazy" src="${item.image}" width="120" height="120" alt="">
+                  </a>
+                </div>
+              </td>
+              <td>
+                <div class="shopping-cart__product-item__detail">
+                  <h4><a href="/shop/${item.slug}" >${item.name}</a></h4>
+                  <ul class="shopping-cart__product-item__options">
+                    <li>Size: ${item.size}</li>
+                  </ul>
+                </div>
+              </td>
+              <td>
+                <span class="shopping-cart__product-price">$${item.price}</span>
+              </td>
+              <td>
+                <div class="qty-control position-relative">
+                  <input type="number" name="quantity" value="${item.quantity}" min="1" class="qty-control__number text-center">
+                  <div class="qty-control__reduce">-</div>
+                  <div class="qty-control__increase">+</div>
+                </div>
+              </td>
+              <td>
+                <span class="shopping-cart__subtotal">$${(parseFloat(item.price) * item.quantity).toFixed(2)}</span>
+              </td>
+              <td>
+                <a href="#" class="remove-cart">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z"/>
+                    <path d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z"/>
+                  </svg>
+                </a>
+              </td>
+            </tr>
+          `;
+        });
+      } else {
+        cartContainer.innerHTML = `
+          <tr>
+            <td colspan="6" style="width: 100%">
+              <div class="alert alert-info" role="alert">
+                No hay productos en el carrito
+              </div>
+            </td>
+          </tr>
+        `;
+      }
+
+      updateTotals();
+      addEventListeners();
+    };
+
+    updateTotals();
+
+    const addEventListeners = () => {
+      const removeCart = document.querySelectorAll('.remove-cart');
+      const qtyControlIncrease = document.querySelectorAll('.qty-control__increase');
+      const qtyControlReduce = document.querySelectorAll('.qty-control__reduce');
+
+      removeCart.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const product = e.target.closest('tr');
+          const slug = product.dataset.slug;
+          const size = product.dataset.size;
+          const cart = JSON.parse(localStorage.getItem('cart'));
+          const newCart = cart.filter(item => item.slug !== slug || item.size !== size);
+          localStorage.setItem('cart', JSON.stringify(newCart));
+          updateCart();
+        });
+      });
+
+      qtyControlIncrease.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const product = e.target.closest('tr');
+          const slug = product.dataset.slug;
+          const size = product.dataset.size;
+          const input = product.querySelector('input');
+          const value = parseInt(input.value);
+          input.value = value + 1;
+          const cart = JSON.parse(localStorage.getItem('cart'));
+          const index = cart.findIndex(item => item.slug === slug && item.size === size);
+          if (index !== -1) {
+            cart[index].quantity = value + 1;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCart();
+          }
+        });
+      });
+
+      qtyControlReduce.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const product = e.target.closest('tr');
+          const slug = product.dataset.slug;
+          const size = product.dataset.size;
+          const input = product.querySelector('input');
+          const value = parseInt(input.value);
+          if (value > 1) {
+            input.value = value - 1;
+            const cart = JSON.parse(localStorage.getItem('cart'));
+            const index = cart.findIndex(item => item.slug === slug && item.size === size);
+            if (index !== -1) {
+              cart[index].quantity = value - 1;
+              localStorage.setItem('cart', JSON.stringify(cart));
+              updateCart();
+            }
+          }
+        });
+      });
+    };
+
+    addEventListeners();
+
+    const btnCheckout = document.getElementById('btn-checkout');
+    const loadingSpinner = btnCheckout.querySelector('.loading-spinner');
+
+    btnCheckout.addEventListener('click', () => {
+      btnCheckout.childNodes[0].nodeValue = '';
+      loadingSpinner.style.display = 'block';
+      const cart = JSON.parse(localStorage.getItem('cart'));
+      const productIds = cart.map(item => ({ productId: item.product_id, quantity: item.quantity }));
+      if (cart && cart.length > 0) {
+        fetch('/checkout/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+          },
+          body: JSON.stringify({ productIds }),
+        })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Error en la solicitud');
+          }
+        })
+        .then(data => {
+          window.location.href = data.checkoutUrl;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Ocurrió un error al procesar el checkout. Por favor, inténtalo de nuevo.');
+        })
+
+        .finally(() => {
+          btnCheckout.childNodes[0].nodeValue = 'REALIZAR COMPRA';
+          loadingSpinner.style.display = 'none';
+        });
+      } else {
+        alert('No hay productos en el carrito para proceder al checkout.');
+      }
+    });
+
+  });
+</script>
+
+{% endblock content %}

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <main>
+    <div class="mb-4 pb-4"></div>
+    <section class="my-account container">
+      <h2 class="page-title">Detalles de la cuenta</h2>
+      <div class="row">
+        <div class="col-lg-3">
+          {% include 'account/includes/account-nav.html' %}
+        </div>
+        <div class="col-lg-9">
+          <div class="page-content my-account__edit">
+            <div class="my-account__edit-form">
+              {% if messages %}
+              <div class="container-message">
+                  {% for message in messages %}
+                      {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" role="alert">
+                          {{ message }}
+                        </div>
+                      {% else %}
+                        <div class="alert alert-success" role="alert">
+                          {{ message }}
+                        </div>
+                      {% endif %}
+                  {% endfor %}
+              </div>
+              {% endif %}
+              <form name="account_edit_form" class="needs-validation" novalidate method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="edit">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-floating my-3">
+                      <input name="edit_name" type="text" class="form-control" id="account_first_name" placeholder="Nombres" required value="{{ user.nombre }}"/>
+                      <label for="account_first_name">Nombres</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating my-3">
+                      <input name="edit_lastname" type="text" class="form-control" id="account_last_name" placeholder="Apellidos" required value="{{ user.apellido }}" />
+                      <label for="account_last_name">Apellidos</label>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-floating my-3">
+                      <input name="edit_email" type="email" class="form-control" id="account_email" placeholder="Correo electrónico" required value="{{ user.email }}" />
+                      <label for="account_email">Correo electrónico</label>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="my-3">
+                      <button class="btn btn-primary">Guardar cambios</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="col-md-12">
+                <div class="my-3">
+                  <h5 class="text-uppercase mb-0">Cambiar contraseña</h5>
+                </div>
+              </div>
+              <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                <input type="hidden" name="action" value="change_password">
+                <div class="col-md-12">
+                  <div class="form-floating my-3">
+                    <input name="edit_password" type="password" class="form-control" id="account_current_password" placeholder="Current password" required />
+                    <label for="account_current_password">Contraseña actual</label>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-floating my-3">
+                    <input name="edit_new_password" type="password" class="form-control" id="account_new_password" placeholder="New password" required />
+                    <label for="account_new_password">Nueva contraseña</label>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-floating my-3">
+                    <input name="edit_confirm_password" type="password" class="form-control" data-cf-pwd="#account_new_password" id="account_confirm_password" placeholder="Confirm new password" required />
+                    <label for="account_confirm_password">Confirma la nueva contraseña</label>
+                    <div class="invalid-feedback">Las contraseñas no coinciden!</div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="my-3">
+                    <button class="btn btn-primary">Cambiar contraseña</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="mb-5 pb-xl-5"></div>
+{% endblock %}

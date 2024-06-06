@@ -160,12 +160,7 @@ UNFOLD = {
                         "link": reverse_lazy("admin:auth_group_changelist"),
                         "permission": lambda request: request.user.is_superuser,
                     },
-                    {
-                        "title": _("Usuarios"),
-                        "icon": "people",
-                        "link": reverse_lazy("admin:auth_user_changelist"),
-                        "permission": lambda request: request.user.is_superuser,
-                    },
+                    
                 ],
             },
 
@@ -177,6 +172,12 @@ UNFOLD = {
                         "title": _("Productos"),
                         "icon": "inventory_2", 
                         "link": reverse_lazy("admin:productos_productos_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Imagenes"),
+                        "icon": "inventory_2", 
+                        "link": reverse_lazy("admin:productos_productosimagenes_changelist"),
                         "permission": lambda request: request.user.is_superuser,
                     },
                     {
@@ -218,3 +219,14 @@ UNFOLD = {
         },
     },
 }
+
+LOGIN_URL = 'account:login_register'
+LOGIN_REDIRECT_URL = 'account:account'
+AUTH_USER_MODEL = 'consumidores.Consumidores'
+
+AUTHENTICATION_BACKENDS = [
+    'consumidores.email_backend.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+STRIPE_ENDPOINT_SECRET = 'whsec_a7e4cce96611c4895825437c4ca9cfaadd15d73e80497ae8b8f9927426009ef1'
