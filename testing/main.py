@@ -29,6 +29,18 @@ def total_scroll():
         time.sleep(0.1)
     time.sleep(2)
 
+def smooth_scroll_small(driver, target_position, scroll_pause_time=0.1, step_size=10):
+    current_position = driver.execute_script("return window.pageYOffset;")
+    
+    if current_position < target_position:
+        for i in range(current_position, target_position, step_size):
+            driver.execute_script(f"window.scrollBy(0, {step_size});")
+            time.sleep(scroll_pause_time)
+    else:
+        for i in range(current_position, target_position, -step_size):
+            driver.execute_script(f"window.scrollBy(0, -{step_size});")
+            time.sleep(scroll_pause_time)
+
 def smooth_scroll(driver, target, scroll_pause_time=0.1, step_size=100):
     current_position = driver.execute_script("return window.pageYOffset;")
     target_position = driver.execute_script("return arguments[0].getBoundingClientRect().top + window.pageYOffset - 100;", target)
@@ -77,6 +89,13 @@ try:
     home_product_link.click()
     time.sleep(1)
 
+    smooth_scroll_small(driver, 200)
+    time.sleep(1)
+
+    changue_product_image = driver.find_element(By.XPATH, '/html/body/main/section[1]/div[1]/div[1]/div/div[1]/div/div[3]')
+    changue_product_image.click()
+    time.sleep(3)
+
     shop_product_wishlist_button = driver.find_element(By.XPATH, '/html/body/main/section[1]/div[1]/div[2]/div[4]/form/button')
     driver.execute_script("arguments[0].click();", shop_product_wishlist_button)
     time.sleep(1)
@@ -95,6 +114,9 @@ try:
 
     register_email_input = driver.find_element(By.NAME, 'register_email')
     register_email_input.send_keys(email)
+    time.sleep(1)
+
+    smooth_scroll_small(driver, 400)
     time.sleep(1)
 
     register_password_input = driver.find_element(By.NAME, 'register_password')
@@ -168,6 +190,9 @@ try:
     driver.get('https://uomo.onrender.com/cart/')
     time.sleep(2)
 
+    smooth_scroll_small(driver, 300)
+    time.sleep(1)
+
     checkout_button = driver.find_element(By.ID, 'btn-checkout')
     driver.execute_script("arguments[0].click();", checkout_button)
     time.sleep(10)
@@ -194,11 +219,17 @@ try:
 
     checkout_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div/div[2]/main/div/div[2]/form/div[1]/div/div/div[3]/div/div[2]/button')
     driver.execute_script("arguments[0].click();", checkout_button)
+
+    smooth_scroll_small(driver, 1000)
+    time.sleep(10)
+
+    account_link_button = driver.find_element(By.XPATH, '//*[@id="header"]/div/div/div[2]/div[2]/a')
+    driver.execute_script("arguments[0].click();", account_link_button)
+    time.sleep(2)
+
+    order_account_tab = driver.find_element(By.XPATH, '/html/body/main/section/div/div[1]/ul/li[2]/a')
+    order_account_tab.click()
     time.sleep(30)
 
 except WebDriverException as e:
     print(f"Se produjo un error al intentar cargar la página: {e}")
-
-finally:
-    pass
-    #driver.quit()
