@@ -104,7 +104,7 @@ def create_checkout_session(request):
                             'product_data': {
                                 'name': product.nombre,
                                 'description': product.mini_descripcion, 
-                                'images': [f'https://uomo.onrender.com/{product.imagenes.first().imagen.url}'],
+                                'images': [f'https://uomo.onrender.com{product.imagenes.first().imagen.url}'],
                             },
                             'unit_amount': price,
                         },
