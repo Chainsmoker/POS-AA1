@@ -14,7 +14,7 @@ tested_card = {
 }
 
 user_data = {
-    'name': 'Alejandro Plasencia',
+    'name': 'Wilson Cueva',
     'email': email,
 }
 
