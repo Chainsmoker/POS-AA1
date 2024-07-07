@@ -51,7 +51,7 @@ def login_register(request):
             else:
                 messages.error(request, 'Todos los campos son requeridos. Inténtalo de nuevo.')
             
-            return redirect('/auth/login/#register-tab')
+            return redirect('/accounts/login/#register-tab')
 
 
     context = {
